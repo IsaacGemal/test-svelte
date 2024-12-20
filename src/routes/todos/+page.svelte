@@ -4,6 +4,14 @@
   let { data } = $props();
   let todos = $state(data.todos as Todo[]);
   let newTodoContent = $state('');
+  let searchQuery = $state('');
+
+  // Filtered todos based on search query
+  let filteredTodos = $derived(
+    todos.filter(todo => 
+      todo.content.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  );
 
   async function addTodo() {
     if (!newTodoContent.trim()) return;
@@ -60,8 +68,17 @@
     </button>
   </div>
 
+  <div class="mb-6">
+    <input
+      type="text"
+      bind:value={searchQuery}
+      placeholder="Search todos..."
+      class="w-full px-4 py-2 border rounded"
+    />
+  </div>
+
   <ul class="space-y-2">
-    {#each todos as todo (todo.id)}
+    {#each filteredTodos as todo (todo.id)}
       <li class="flex items-center gap-2 p-4 bg-[var(--color-bg-1)] rounded shadow-sm">
         <input
           type="checkbox"
