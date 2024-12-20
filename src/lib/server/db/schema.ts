@@ -19,6 +19,7 @@ export const todo = pgTable('todo', {
 	id: serial('id').primaryKey(),
 	content: text('content').notNull(),
 	completed: boolean('completed').notNull().default(false),
+	priority: text('priority').notNull().default('medium'),
 	createdAt: timestamp('created_at').notNull().defaultNow()
 });
 

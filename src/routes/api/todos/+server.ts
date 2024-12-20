@@ -10,8 +10,8 @@ export const GET: RequestHandler = async () => {
 };
 
 export const POST: RequestHandler = async ({ request }) => {
-	const { content } = await request.json();
-	const [newTodo] = await db.insert(todo).values({ content }).returning();
+	const { content, priority } = await request.json();
+	const [newTodo] = await db.insert(todo).values({ content, priority }).returning();
 	return json(newTodo);
 };
 
