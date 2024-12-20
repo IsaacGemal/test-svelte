@@ -4,6 +4,7 @@
   let { data } = $props();
   let todos = $state(data.todos as Todo[]);
   let newTodoContent = $state('');
+  let newTodoPriority = $state('medium');
   let searchQuery = $state('');
 
   // Filtered todos based on search query
@@ -19,7 +20,10 @@
     const response = await fetch('/api/todos', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content: newTodoContent })
+      body: JSON.stringify({ 
+        content: newTodoContent,
+        priority: newTodoPriority 
+      })
     });
     
     const newTodo = await response.json();
@@ -47,6 +51,12 @@
     
     todos = todos.filter(t => t.id !== id);
   }
+
+  const priorityColors = {
+    low: 'bg-blue-100',
+    medium: 'bg-yellow-100',
+    high: 'bg-red-100'
+  };
 </script>
 
 <div class="max-w-2xl mx-auto p-6">
@@ -60,6 +70,14 @@
       class="flex-1 px-4 py-2 border rounded"
       onkeydown={(e) => e.key === 'Enter' && addTodo()}
     />
+    <select
+      bind:value={newTodoPriority}
+      class="px-4 py-2 border rounded"
+    >
+      <option value="low">Low</option>
+      <option value="medium">Medium</option>
+      <option value="high">High</option>
+    </select>
     <button
       onclick={addTodo}
       class="px-4 py-2 bg-[var(--color-theme-1)] text-white rounded hover:bg-[var(--color-theme-2)] transition-colors"
@@ -79,7 +97,7 @@
 
   <ul class="space-y-2">
     {#each filteredTodos as todo (todo.id)}
-      <li class="flex items-center gap-2 p-4 bg-[var(--color-bg-1)] rounded shadow-sm">
+      <li class="flex items-center gap-2 p-4 rounded shadow-sm {priorityColors[todo.priority]}">
         <input
           type="checkbox"
           checked={todo.completed}
@@ -88,6 +106,9 @@
         />
         <span class:line-through={todo.completed} class="flex-1">
           {todo.content}
+        </span>
+        <span class="text-sm capitalize text-gray-600">
+          {todo.priority}
         </span>
         <button
           onclick={() => deleteTodo(todo.id)}
