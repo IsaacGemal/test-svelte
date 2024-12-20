@@ -52,7 +52,9 @@
     todos = todos.filter(t => t.id !== id);
   }
 
-  const priorityColors = {
+  type Priority = 'low' | 'medium' | 'high';
+
+  const priorityColors: Record<Priority, string> = {
     low: 'bg-blue-100',
     medium: 'bg-yellow-100',
     high: 'bg-red-100'
@@ -97,7 +99,7 @@
 
   <ul class="space-y-2">
     {#each filteredTodos as todo (todo.id)}
-      <li class="flex items-center gap-2 p-4 rounded shadow-sm {priorityColors[todo.priority]}">
+      <li class="flex items-center gap-2 p-4 rounded shadow-sm {priorityColors[todo.priority as Priority]}">
         <input
           type="checkbox"
           checked={todo.completed}
