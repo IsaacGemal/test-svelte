@@ -35,54 +35,28 @@
     }
 </script>
 
-<div class="stopwatch">
-    <div class="display">{formatTime(time)}</div>
-    <div class="controls">
-        {#if !isRunning}
-            <button onclick={startTimer}>Start</button>
-        {:else}
-            <button onclick={stopTimer}>Stop</button>
-        {/if}
-        <button onclick={resetTimer}>Reset</button>
+<div class="flex flex-col items-center gap-4 p-8 rounded-lg bg-[var(--color-bg-1)] shadow-md">
+    <div class="font-mono text-4xl font-bold text-[var(--color-theme-1)]">
+        {formatTime(time)}
     </div>
-</div>
-
-<style>
-    .stopwatch {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-        padding: 2rem;
-        border-radius: 8px;
-        background-color: var(--color-bg-1);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .display {
-        font-family: var(--font-mono);
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: var(--color-theme-1);
-    }
-
-    .controls {
-        display: flex;
-        gap: 0.5rem;
-    }
-
-    button {
-        padding: 0.5rem 1rem;
-        border: none;
-        border-radius: 4px;
-        background-color: var(--color-theme-1);
-        color: white;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 0.2s;
-    }
-
-    button:hover {
-        background-color: var(--color-theme-2);
-    }
-</style> 
+    <div class="flex gap-2">
+        {#if !isRunning}
+            <button 
+                class="px-4 py-2 font-bold text-white rounded bg-[var(--color-theme-1)] hover:bg-[var(--color-theme-2)] transition-colors cursor-pointer"
+                onclick={startTimer}>
+                Start
+            </button>
+        {:else}
+            <button 
+                class="px-4 py-2 font-bold text-white rounded bg-[var(--color-theme-1)] hover:bg-[var(--color-theme-2)] transition-colors cursor-pointer"
+                onclick={stopTimer}>
+                Stop
+            </button>
+        {/if}
+        <button 
+            class="px-4 py-2 font-bold text-white rounded bg-[var(--color-theme-1)] hover:bg-[var(--color-theme-2)] transition-colors cursor-pointer"
+            onclick={resetTimer}>
+            Reset
+        </button>
+    </div>
+</div> 
